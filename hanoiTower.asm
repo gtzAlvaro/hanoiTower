@@ -49,5 +49,13 @@ else:
 	add $t1, $t1, $a1	#show the rod to move from in t1
 	andi $t2, $t2, 0	#clear t2
 	add $t2, $t2, $a2	#show the rod to move to in t2
+	
+	addi $sp, $sp, -4	#save one extra sapce in stack to change values from origin rod and temporary rod
+	addi $a0, $a0, -1	#reduce the number of disks by one
+	sw $a1, ($sp)		#temporarly store contents of origin rod in stack
+	andi $a1, $a1, 0	#clear origin rod parameter
+	add $a1, $a1, $a3	#store value of temporary rod in origin rod
+	lw $a3, ($sp)		#sotre value of origin rod in temporary rod
+	addi $sp, $sp, 4	#return stack to normal
 	jal hanoiTower
 exit:
