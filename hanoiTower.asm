@@ -39,7 +39,11 @@ else:
 	addi $sp, $sp, 4	#return stack to normal
 	jal hanoiTower
 	
-	
+	lw $a0, 0($sp)		#load number of disks from parent function
+	lw $a1, 4($sp)		#load origin rod from parent function
+	lw $a2, 8($sp)		#load destiny rod from parent function
+	lw $a3, 12($sp)		#load temporary rod from parent function
+	lw $ra, 16($sp)		#load return address from parent function
 	
 	andi $t1, $t1, 0	#clear t1
 	add $t1, $t1, $a1	#show the rod to move from in t1
