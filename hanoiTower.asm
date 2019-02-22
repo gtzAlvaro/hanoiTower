@@ -7,37 +7,43 @@
 
 .text
 main:
-	addi $a0, $a0, 3
-	addi $a1, $a1, 1
-	addi $a2, $a2, 3
-	addi $a3, $a3, 2
-	addi $t0, $t0, 1
+	addi $a0, $a0, 3	#total number of disks
+	addi $a1, $a1, 1	#origin rod
+	addi $a2, $a2, 3	#destiny rod
+	addi $a3, $a3, 2	#temporary rod
+	addi $t0, $t0, 1	#value used to compare when number of disks is reduced to one
 	jal hanoiTower
 	j exit
 
 hanoiTower:
-	bne $a0, $t0, else
-	andi $t1, $t1, 0
-	add $t1, $t1, $a1
-	andi $t2, $t2, 0
-	add $t2, $t2, $a2
+	bne $a0, $t0, else	#if number of disks is not equal to one then store parameter values and call function again
+	andi $t1, $t1, 0	#clear t1
+	add $t1, $t1, $a1	#show the rod to move from in t1
+	andi $t2, $t2, 0	#clear t2
+	add $t2, $t2, $a2	#show the rod to move to in t2
 	jr $ra
 else:
-	addi $sp, $sp, -16
-	sw $a0, 0($sp)
-	sw $a1, 4($sp)
-	sw $a2, 8($sp)
-	sw $a3, 12($sp)
-	sw $ra, 16($sp)
+	addi $sp, $sp, -16	#save space in stack for 5 data packages
+	sw $a0, 0($sp)		#store number of disks first
+	sw $a1, 4($sp)		#store origin rod second
+	sw $a2, 8($sp)		#store destiny rod third
+	sw $a3, 12($sp)		#store temporary rod fourth
+	sw $ra, 16($sp)		#store return address last
 	
-	addi $sp, $sp, -4
-	addi $a0, $a0, -1
-	sw $a2, ($sp)
-	andi $a2, $a2, 0
-	add $a2, $a2, $a3
-	lw $a3, ($sp)
-	addi $sp, $sp, 4
+	addi $sp, $sp, -4	#save one extra sapce in stack to change values from destiny rod and temporary rod
+	addi $a0, $a0, -1	#reduce the number of disks by one
+	sw $a2, ($sp)		#temporarly store contents of destiny rod in stack
+	andi $a2, $a2, 0	#clear destiny rod parameter
+	add $a2, $a2, $a3	#store value of temporary rod in destiny rod
+	lw $a3, ($sp)		#sotre value of destiny rod in temporary rod
+	addi $sp, $sp, 4	#return stack to normal
 	jal hanoiTower
 	
+	
+	
+	andi $t1, $t1, 0	#clear t1
+	add $t1, $t1, $a1	#show the rod to move from in t1
+	andi $t2, $t2, 0	#clear t2
+	add $t2, $t2, $a2	#show the rod to move to in t2
 	jal hanoiTower
 exit:
