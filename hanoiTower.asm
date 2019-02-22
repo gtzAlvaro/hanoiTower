@@ -17,7 +17,10 @@ main:
 
 hanoiTower:
 	bne $a0, $t0, else
-	
+	andi $t1, $t1, 0
+	add $t1, $t1, $a1
+	andi $t2, $t2, 0
+	add $t2, $t2, $a2
 	jr $ra
 else:
 	addi $sp, $sp, -16
