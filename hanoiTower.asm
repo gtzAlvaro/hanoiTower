@@ -29,8 +29,8 @@ else:
 	sw $a2, 8($sp)		#store destiny rod third
 	sw $a3, 12($sp)		#store temporary rod fourth
 	sw $ra, 16($sp)		#store return address last
-	
-	addi $sp, $sp, -4	#save one extra sapce in stack to change values from destiny rod and temporary rod
+
+	addi $sp, $sp, -8	#save one extra sapce in stack to change values from destiny rod and temporary rod
 	addi $a0, $a0, -1	#reduce the number of disks by one
 	sw $a2, ($sp)		#temporarly store contents of destiny rod in stack
 	andi $a2, $a2, 0	#clear destiny rod parameter
@@ -39,11 +39,11 @@ else:
 	addi $sp, $sp, 4	#return stack to normal
 	jal hanoiTower
 	
-	lw $a0, 0($sp)		#load number of disks from parent function
-	lw $a1, 4($sp)		#load origin rod from parent function
-	lw $a2, 8($sp)		#load destiny rod from parent function
-	lw $a3, 12($sp)		#load temporary rod from parent function
-	lw $ra, 16($sp)		#load return address from parent function
+	lw $a0, 4($sp)		#load number of disks from parent function
+	lw $a1, 8($sp)		#load origin rod from parent function
+	lw $a2, 12($sp)		#load destiny rod from parent function
+	lw $a3, 16($sp)		#load temporary rod from parent function
+	lw $ra, 20($sp)		#load return address from parent function
 	
 	andi $t1, $t1, 0	#clear t1
 	add $t1, $t1, $a1	#show the rod to move from in t1
@@ -58,4 +58,8 @@ else:
 	lw $a3, ($sp)		#sotre value of origin rod in temporary rod
 	addi $sp, $sp, 4	#return stack to normal
 	jal hanoiTower
+	addi $sp, $sp, 20
+	lw $ra, ($sp)
+	jr $ra
+	
 exit:
