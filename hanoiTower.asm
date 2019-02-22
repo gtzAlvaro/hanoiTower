@@ -17,33 +17,16 @@ main:
 
 hanoiTower:
 	bne $a0, $t0, else
-	andi $t1, $t2, 0
-	andi $t2, $t2, 0
-	add $t1, $t1, $a1
-	add $t2, $t2, $a2
+	
 	jr $ra
 else:
-	addi $a0, $a0, -1
-	andi $a1, $a1, 0
-	andi $a2, $a2, 0
-	andi $a3, $a3, 0
-	addi $a1, $a1, 1
-	addi $a2, $a2, 2
-	addi $a3, $a3, 3
-	sw $ra, ($sp)
-	addi $sp, $sp, -4
+	addi $sp, $sp, -16
+	sw $a0, 0($sp)
+	sw $a1, 4($sp)
+	sw $a2, 8($sp)
+	sw $a3, 12($sp)
+	sw $ra, 16($sp)
 	jal hanoiTower	
 	
-	andi $t1, $t2, 0
-	andi $t2, $t2, 0
-	add $t1, $t1, $a1
-	add $t2, $t2, $a2
-	
-	andi $a1, $a1, 0
-	andi $a2, $a2, 0
-	andi $a3, $a3, 0
-	addi $a1, $a1, 3
-	addi $a2, $a2, 2
-	addi $a3, $a3, 1
 	jal hanoiTower
 exit:
