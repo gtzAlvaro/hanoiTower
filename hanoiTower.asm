@@ -26,7 +26,15 @@ else:
 	sw $a2, 8($sp)
 	sw $a3, 12($sp)
 	sw $ra, 16($sp)
-	jal hanoiTower	
+	
+	addi $sp, $sp, -4
+	addi $a0, $a0, -1
+	sw $a2, ($sp)
+	andi $a2, $a2, 0
+	add $a2, $a2, $a3
+	lw $a3, ($sp)
+	addi $sp, $sp, 4
+	jal hanoiTower
 	
 	jal hanoiTower
 exit:
