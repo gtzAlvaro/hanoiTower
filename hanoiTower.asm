@@ -4,12 +4,14 @@
 
 .text
 main:
-	addi $a0, $a0, 3	#total number of disks
+	addi $a0, $a0, 8	#total number of disks
 	addi $a1, $a1, 1	#origin rod
 	addi $a2, $a2, 3	#destiny rod
 	addi $a3, $a3, 2	#temporary rod
 	addi $t0, $t0, 1	#value used to compare when number of disks is reduced to one
 	add $t1, $t1, $a0	#value used to draw disk in data segment
+	addi $t2, $t2, 2
+	addi $t3, $t3, 3
 	addi $s0, $s0, 0x10010000
 	addi $s1, $s1, 0x10010020
 	addi $s2, $s2, 0x10010040
@@ -18,13 +20,11 @@ draw:
 	addi $t1, $t1, -1
 	addi $s0, $s0, 4
 	bne $t1, $zero, draw
-	
 	jal hanoiTower
 	j exit
 
 hanoiTower:
-	bne $a0, $t0, else	#if number of disks is not equal to one then store parameter values and call function again
-
+	bne $a0, $zero, else	#if number of disks is not equal to one then store parameter values and call function again
 	jr $ra
 else:
 	addi $sp, $sp, -16	#save space in stack for 5 data packages
@@ -49,7 +49,35 @@ else:
 	lw $a3, 16($sp)		#load temporary rod from parent function
 	lw $ra, 20($sp)		#load return address from parent function
 
-
+	bne $a1, $t0, two
+	addi $s0, $s0, -4
+	lw $t4, ($s0)
+	sw $zero, ($s0)
+	j destiny
+two:	
+	bne $a1, $t2, three
+	addi $s1, $s1, -4
+	lw $t4, ($s1)
+	sw $zero, ($s1)
+	j destiny
+three:
+	addi $s2, $s2, -4
+	lw $t4, ($s2)
+	sw $zero, ($s2)
+destiny:
+	bne $a2, $t0, twoD
+	sw $t4, ($s0)
+	addi $s0, $s0, 4
+	j breaK
+twoD:
+	bne $a2, $t2, threeD
+	sw $t4, ($s1)
+	addi $s1, $s1, 4
+	j breaK
+threeD:
+	sw $t4, ($s2)
+	addi $s2, $s2, 4
+breaK:
 	
 	addi $sp, $sp, -4	#save one extra sapce in stack to change values from origin rod and temporary rod
 	addi $a0, $a0, -1	#reduce the number of disks by one
