@@ -49,34 +49,34 @@ else:
 	lw $a3, 16($sp)		#load temporary rod from parent function
 	lw $ra, 20($sp)		#load return address from parent function
 
-	bne $a1, $t0, two
-	addi $s0, $s0, -4
-	lw $t4, ($s0)
-	sw $zero, ($s0)
-	j destiny
+	bne $a1, $t0, two	#if origin rod is 1 then ...
+	addi $s0, $s0, -4	#decrease pointer
+	lw $t4, ($s0)		#store disk number
+	sw $zero, ($s0)		#erase disk nuber from origin rod
+	j destiny		#check destiny rod
 two:	
-	bne $a1, $t2, three
-	addi $s1, $s1, -4
-	lw $t4, ($s1)
-	sw $zero, ($s1)
-	j destiny
+	bne $a1, $t2, three	#if origin rod is 2 then ...
+	addi $s1, $s1, -4	#decrease pointer
+	lw $t4, ($s1)		#store disk number
+	sw $zero, ($s1)		#erase disk number from origin rod
+	j destiny		#check destiny rod
 three:
-	addi $s2, $s2, -4
-	lw $t4, ($s2)
-	sw $zero, ($s2)
+	addi $s2, $s2, -4	#decrease pointer
+	lw $t4, ($s2)		#store disk number
+	sw $zero, ($s2)		#erase disk number from origin rod
 destiny:
-	bne $a2, $t0, twoD
-	sw $t4, ($s0)
-	addi $s0, $s0, 4
-	j breaK
+	bne $a2, $t0, twoD	#if destiny rod is 1 then ...
+	sw $t4, ($s0)		#load disk number
+	addi $s0, $s0, 4	#increase pointer
+	j breaK			#beak
 twoD:
-	bne $a2, $t2, threeD
-	sw $t4, ($s1)
-	addi $s1, $s1, 4
-	j breaK
+	bne $a2, $t2, threeD	#if destiny rod is 2 then ...
+	sw $t4, ($s1)		#load disk number
+	addi $s1, $s1, 4	#increase pointer
+	j breaK			#break
 threeD:
-	sw $t4, ($s2)
-	addi $s2, $s2, 4
+	sw $t4, ($s2)		#load pointer
+	addi $s2, $s2, 4	#increase pointer
 breaK:
 	
 	addi $sp, $sp, -4	#save one extra sapce in stack to change values from origin rod and temporary rod
