@@ -12,13 +12,6 @@ main:
 	sll $a0, $a0, 4
 	addi $a0, $a0, 2		#temporary rod
 	addi $t0, $t0, 0x00001000
-	
-##	add $t1, $t1, $a0	#value used to draw disk in data segment
-##draw: 
-##	sw $t1, ($a1)
-##	addi $t1, $t1, -1
-##	addi $a1, $a1, 4
-##	bne $t1, $zero, draw
 	jal hanoiTower
 	j exit
 
@@ -34,6 +27,7 @@ else:
 	addi $sp, $sp, -4
 	
 	addi $a0, $a0, -0x00001000	#reduce the number of disks by one
+	
 	andi $t1, $a0, 0x000000F0
 	srl $t1, $t1, 4
 	andi $t2, $a0, 0x0000000F
@@ -50,6 +44,7 @@ else:
 	andi $t7, $a0, 0x00000FF0	#print area
 
 	addi $a0, $a0, -0x00001000	#reduce the number of disks by one
+	
 	andi $t1, $a0, 0x00000F00
 	srl $t1, $t1, 8
 	andi $t2, $a0, 0x0000000F
