@@ -4,19 +4,30 @@
 
 .text
 main:
-	addi $a0, $a0, 3
+	addi $a0, $a0, 8
+	addi $a1, $a1, 1
+	addi $a2, $sp, -4
 	jal grayCode
 	j exit
 	
 grayCode:
-	beq $a0, $zero, breaK
-	addi $a0, $a0, -1
-	sw $ra, ($sp)
-	addi $sp, $sp, -4
-	jal grayCode
-breaK:
+	beq $a0, $zero, else
+	sll $t0, $a1, 0
+while:
+	lw $t1, ($sp)
+	or $t1, $t1, $a1
+	sw $t1, ($a2)
+	addi $a2, $a2, -4
 	addi $sp, $sp, 4
-	lw $ra, ($sp)
+	addi $t0, $t0, -1
+	bne $t0, $zero, while
+	addi $a0, $a0, -1
+	sll $a1, $a1, 1
+	addi $sp, $a2, 4
+	jal grayCode
+else:
+	andi $ra, $ra, 0x00000000
+	addi $ra, $ra, 0x00400010
 	jr $ra
 
 exit:
