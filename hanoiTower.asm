@@ -8,6 +8,16 @@ main:
 	addi $a1, $a1, 1		#origin rod
 	addi $a2, $a2, 3		#destiny rod
 	addi $a3, $a3, 2		#temporary rod
+	addi $t0, $t0, 1
+	addi $s1, $s1, 0x10010000
+	addi $s2, $s2, 0x10010040
+	addi $s3, $s3, 0x10010020
+	addi $t1, $a0, 0
+while:
+	sw $t1, ($s1)
+	addi $s1, $s1, 4
+	addi $t1, $t1, -1
+	bne $t1, $zero, while
 	jal hanoiTower
 	j exit
 
