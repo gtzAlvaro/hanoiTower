@@ -5,13 +5,9 @@
 .text
 main:
 	addi $a0, $a0, 8		#total number of disks
-	sll $a0, $a0, 4
-	addi $a0, $a0, 1		#origin rod
-	sll $a0, $a0, 4
-	addi $a0, $a0, 3		#destiny rod
-	sll $a0, $a0, 4
-	addi $a0, $a0, 2		#temporary rod
-	addi $t0, $t0, 0x00001000
+	addi $a1, $a1, 1		#origin rod
+	addi $a2, $a2, 3		#destiny rod
+	addi $a3, $a3, 2		#temporary rod
 	jal hanoiTower
 	j exit
 
