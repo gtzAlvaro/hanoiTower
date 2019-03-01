@@ -8,6 +8,8 @@ main:
 	addi $a1, $a1, 1		#origin rod
 	addi $a2, $a2, 3		#destiny rod
 	addi $a3, $a3, 2		#temporary rod
+	addi $t2, $t2, 1		#value used to compare
+	addi $t3, $t3, 2		#value used to compare
 	addi $s1, $s1, 0x10010000	#value of data segment where origin rod will be drawn
 	addi $s2, $s2, 0x10010020	#value of data segment where temporary rod will be drawn
 	addi $s3, $s3, 0x10010040	#value of data segment where destiny rod will be drawn
@@ -21,7 +23,7 @@ while:					#print the number of disks in data segment
 	j exit
 
 hanoiTower:
-	bne $a0, 1, else	#if number of disks is not equal to one then store parameter values and call function again
+	bne $a0, $t2, else	#if number of disks is not equal to one then store parameter values and call function again
 	sw $ra, ($sp)
 	jal draw		#move disks accrodingly
 	lw $ra, ($sp)
@@ -62,13 +64,13 @@ else:
 	jr $ra
 
 draw:
-	bne $a1, 1, notOne	#if origin rod is 1
+	bne $a1, $t2, notOne	#if origin rod is 1
 	addi $s1, $s1, -4	#decrease origin rod pointer
 	lw $t1, ($s1)		#load disk
 	sw $zero, ($s1)		#remove disk
 	j destinyRod
 notOne:
-	bne $a1, 2, notTwo	#if origin rod is 2
+	bne $a1, $t3, notTwo	#if origin rod is 2
 	addi $s2, $s2, -4	#decrease origin rod pointer
 	lw $t1, ($s2)		#load disk
 	sw $zero, ($s2)		#remove disk
@@ -79,12 +81,12 @@ notTwo:
 	sw $zero, ($s3)		#remove disk
 	
 destinyRod:
-	bne $a2, 1, isTwo	#if destiny rod is 1
+	bne $a2, $t2, isTwo	#if destiny rod is 1
 	sw $t1, ($s1)		#store disk
 	addi $s1, $s1, 4	#increase pointer
 	jr $ra
 isTwo:	
-	bne $a2, 2, isThree	#if destiny rod is 2
+	bne $a2, $t3, isThree	#if destiny rod is 2
 	sw $t1, ($s2)		#store disk
 	addi $s2, $s2, 4	#increase pointer
 	jr $ra
