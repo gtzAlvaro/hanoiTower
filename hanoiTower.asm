@@ -4,7 +4,8 @@
 
 .text
 main:
-	addi $a0, $a0, 8		#total number of disks
+	addi $s0, $s0, 1		#total number of disks
+	add $a0, $a0, $s0
 	addi $a1, $a1, 1		#origin rod
 	addi $a2, $a2, 3		#destiny rod
 	addi $a3, $a3, 2		#temporary rod
